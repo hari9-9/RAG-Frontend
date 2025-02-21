@@ -3,11 +3,11 @@ import React, { useState } from "react";
 interface TextInputSectionProps {
   inputText: string;
   setInputText: (text: string) => void;
+  setApiResponse: (response: string) => void; // New prop to update API response
 }
 
-export default function TextInputSection({ inputText, setInputText }: TextInputSectionProps) {
+export default function TextInputSection({ inputText, setInputText, setApiResponse }: TextInputSectionProps) {
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Function to handle API call
@@ -16,7 +16,7 @@ export default function TextInputSection({ inputText, setInputText }: TextInputS
 
     setLoading(true);
     setError(null);
-    setResponse(null);
+    setApiResponse(""); // Clear previous response
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/query/?query=${encodeURIComponent(inputText)}`, {
@@ -31,8 +31,7 @@ export default function TextInputSection({ inputText, setInputText }: TextInputS
       }
 
       const data = await response.json();
-      console.log(JSON.stringify(data));
-      setResponse(JSON.stringify(data, null, 2)); // Pretty-print JSON response
+      setApiResponse(data.response || "No response received."); // Update response in PdfViewerPage
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error occurred");
     } finally {
@@ -58,13 +57,6 @@ export default function TextInputSection({ inputText, setInputText }: TextInputS
           {loading ? "Sending..." : "Send"}
         </button>
       </div>
-
-      {/* Display API Response */}
-      {response && (
-        <div className="mt-2 p-2 border rounded bg-gray-100 text-sm overflow-auto max-h-32">
-          <pre>{response}</pre>
-        </div>
-      )}
 
       {/* Display Error Message */}
       {error && <p className="mt-2 text-red-500">{error}</p>}

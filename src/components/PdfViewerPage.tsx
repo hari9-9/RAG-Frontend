@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PdfReactPdf from "./pdfView"; // Import your PDF component
-import TextInputSection from "./TextInputSection";
+import TextInputSection from "./TextInputSection"; // Import the updated component
 
 export default function PdfViewerPage() {
   // Store the last read page for each PDF
@@ -11,6 +11,7 @@ export default function PdfViewerPage() {
 
   const [activePdf, setActivePdf] = useState<"pdf1" | "pdf2">("pdf1");
   const [inputText, setInputText] = useState("");
+  const [apiResponse, setApiResponse] = useState<string>(""); // Store API response
 
   // Handle PDF switch and store last read page
   const handleTabSwitch = (pdf: "pdf1" | "pdf2") => {
@@ -60,16 +61,17 @@ export default function PdfViewerPage() {
         </div>
 
         {/* Column 2: Notes Section (20% width) */}
-        <div className="w-[20%] p-4">
-          <textarea
-            className="w-full h-full border p-3 text-lg rounded shadow-md"
-            placeholder="Write notes here..."
-          />
+        {/* Column 2: Notes Section (20% width) */}
+        <div className="w-[20%] p-4 border-l">
+          <div className="w-full h-full border p-3 text-lg rounded shadow-md bg-gray-100 overflow-y-auto whitespace-pre-wrap">
+            {apiResponse ? apiResponse.replace(/\\n/g, "\n") : "Waiting for response..."}
+          </div>
         </div>
+
       </div>
 
-      {/* Row 2: Input Field + Send Button */}
-      <TextInputSection inputText={inputText} setInputText={setInputText} />
+      {/* Row 2: Separate Component for Input */}
+      <TextInputSection inputText={inputText} setInputText={setInputText} setApiResponse={setApiResponse} />
     </div>
   );
 }
