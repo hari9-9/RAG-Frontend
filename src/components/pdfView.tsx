@@ -76,7 +76,7 @@ export default function PdfReactPdf({ src }: PdfProps) {
       </div>
 
       {/* PDF Viewer */}
-      <div ref={containerRef} className="w-full h-full flex justify-center items-center overflow-hidden">
+      <div ref={containerRef} className="w-full h-full flex justify-center items-center">
         <Document
           file={src}
           onLoadSuccess={onDocumentLoadSuccess}
@@ -92,7 +92,7 @@ export default function PdfReactPdf({ src }: PdfProps) {
       </div>
 
       {/* Page Indicator */}
-      <p className="pt-2">Page {pageNumber} of {numPages}</p>
+      <p className="pt-2 z-10 text-white">Page {pageNumber} of {numPages}</p>
     </div>
   );
 }

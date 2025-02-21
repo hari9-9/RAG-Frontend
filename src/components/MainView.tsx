@@ -32,7 +32,7 @@ export default function PdfViewerPage() {
             </div>
   
             {/* PDF Viewer (Expands Fully) */}
-            <div className="flex-grow w-full h-full border shadow-lg">
+            <div className="flex-grow w-full h-full border shadow-lg overflow-scroll object-contain" >
             <PdfReactPdf src={activePdf === "pdf1" ? "src/assets/2023-conocophillips-aim-presentation.pdf" : "src/assets/2024-conocophillips-proxy-statement.pdf"} />
             </div>
           </div>
