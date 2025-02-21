@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PdfReactPdf from "./pdfView"; // Import your PDF component
+import TextInputSection from "./TextInputSection";
 
 export default function PdfViewerPage() {
   // Store the last read page for each PDF
@@ -68,18 +69,7 @@ export default function PdfViewerPage() {
       </div>
 
       {/* Row 2: Input Field + Send Button */}
-      <div className="w-full h-[15%] flex items-center gap-4 p-4 border-t shadow-md">
-        <input
-          type="text"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          className="flex-grow p-3 text-lg border rounded shadow-sm"
-          placeholder="Enter text..."
-        />
-        <button className="px-6 py-3 bg-green-500 text-white text-lg rounded shadow-md">
-          Send
-        </button>
-      </div>
+      <TextInputSection inputText={inputText} setInputText={setInputText} />
     </div>
   );
 }
