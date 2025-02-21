@@ -13,23 +13,38 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 export default function PdfReactPdf({ src }: PdfProps) {
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [containerWidth, setContainerWidth] = useState<number>(800); // Default width
+  const [pageDimensions, setPageDimensions] = useState<{ width: number; height: number }>({ width: 800, height: 1000 });
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Update width dynamically
+  // Detects container size & adjusts PDF dimensions
   useEffect(() => {
-    function updateWidth() {
+    function updateSize() {
       if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+
+        // Maintain aspect ratio (ensures portrait/landscape are not cut off)
+        if (pageDimensions.width > pageDimensions.height) {
+          // Landscape PDF
+          setPageDimensions({ width, height: (width / pageDimensions.width) * pageDimensions.height });
+        } else {
+          // Portrait PDF
+          setPageDimensions({ width: width * 0.8, height: height * 0.9 });
+        }
       }
     }
-    updateWidth(); // Initial update
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, [pageDimensions.width, pageDimensions.height]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
+  }
+
+  function onPageLoadSuccess({ width, height }: { width: number; height: number }) {
+    setPageDimensions({ width, height });
   }
 
   function nextPage() {
@@ -61,16 +76,18 @@ export default function PdfReactPdf({ src }: PdfProps) {
       </div>
 
       {/* PDF Viewer */}
-      <div
-        ref={containerRef}
-        className="w-full h-full flex justify-center items-center overflow-hidden"
-      >
+      <div ref={containerRef} className="w-full h-full flex justify-center items-center overflow-hidden">
         <Document
           file={src}
           onLoadSuccess={onDocumentLoadSuccess}
           className="w-full h-full flex justify-center"
         >
-          <Page pageNumber={pageNumber} width={containerWidth * 0.9} />
+          <Page
+            pageNumber={pageNumber}
+            width={pageDimensions.width}
+            height={pageDimensions.height}
+            onLoadSuccess={onPageLoadSuccess}
+          />
         </Document>
       </div>
 
