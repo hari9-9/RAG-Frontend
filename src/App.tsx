@@ -5,7 +5,7 @@ import './App.css'
 import PdfReactPdf from './components/pdfView'
 import PageLayout from './components/pageLayout'
 
-import PdfViewerPage from './components/MainView'
+import PdfViewerPage from './components/PdfViewerPage'
 
 function App() {
   const [count, setCount] = useState(0)
