@@ -1,15 +1,27 @@
+import PdfReactPdf from "./pdfView";
+
 export default function PageLayout() {
     return (
-      <div className="flex flex-col h-screen p-4">
+      <div className="flex flex-col h-screen w-full p-4">
         {/* First Row */}
-        <div className="flex flex-1 gap-4">
-          <div className="flex-1 bg-gray-200 p-4 flex items-center justify-center rounded-lg">Column 1</div>
-          <div className="flex-1 bg-gray-300 p-4 flex items-center justify-center rounded-lg">Column 2</div>
-          <div className="flex-1 bg-gray-400 p-4 flex items-center justify-center rounded-lg">Column 3</div>
+        <div className="flex flex-1 w-full gap-4">
+          <div className="w-[40%] h-full bg-gray-200 p-4 flex items-center justify-center rounded-lg overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center">
+              <PdfReactPdf src="src/assets/2023-conocophillips-aim-presentation.pdf" />
+            </div>
+          </div>
+          <div className="w-[40%] h-full bg-gray-300 p-4 flex items-center justify-center rounded-lg overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center">
+              <PdfReactPdf src="src/assets/2023-conocophillips-aim-presentation.pdf" />
+            </div>
+          </div>
+          <div className="w-[20%] h-full bg-gray-400 p-4 flex items-center justify-center rounded-lg">
+            Column 3
+          </div>
         </div>
   
         {/* Second Row */}
-        <div className="flex flex-1 items-center justify-center">
+        <div className="flex flex-1 w-full items-center justify-center">
           <div className="flex gap-2 bg-white p-4 rounded-lg shadow-md">
             <input
               type="text"
@@ -23,5 +35,4 @@ export default function PageLayout() {
         </div>
       </div>
     );
-  }
-  
+}
