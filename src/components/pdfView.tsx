@@ -1,6 +1,7 @@
+// PdfReactPdf.tsx
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 
@@ -34,10 +35,7 @@ export default function PdfReactPdf({ src, pageNumber, setPageNumber }: PdfProps
         >
           Previous
         </button>
-        <button
-          onClick={nextPage}
-          className="px-4 py-1 bg-gray-300 rounded"
-        >
+        <button onClick={nextPage} className="px-4 py-1 bg-gray-300 rounded">
           Next
         </button>
       </div>
