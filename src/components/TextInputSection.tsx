@@ -1,12 +1,14 @@
+// TextInputSection.tsx
 import React, { useState } from "react";
+import { ApiData } from "./PdfViewerPage";
 
 interface TextInputSectionProps {
   inputText: string;
   setInputText: (text: string) => void;
-  setApiResponse: (response: string) => void; // New prop to update API response
+  setApiData: (data: ApiData) => void;
 }
 
-export default function TextInputSection({ inputText, setInputText, setApiResponse }: TextInputSectionProps) {
+export default function TextInputSection({ inputText, setInputText, setApiData }: TextInputSectionProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +18,7 @@ export default function TextInputSection({ inputText, setInputText, setApiRespon
 
     setLoading(true);
     setError(null);
-    setApiResponse(""); // Clear previous response
+    setApiData({ response: "", sources: [] }); // Clear previous response
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/query/?query=${encodeURIComponent(inputText)}`, {
@@ -31,7 +33,8 @@ export default function TextInputSection({ inputText, setInputText, setApiRespon
       }
 
       const data = await response.json();
-      setApiResponse(data.response || "No response received."); // Update response in PdfViewerPage
+      // Expecting data to contain { response: string, sources: Source[] }
+      setApiData(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error occurred");
     } finally {
