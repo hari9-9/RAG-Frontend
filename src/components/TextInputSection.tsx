@@ -1,20 +1,50 @@
-// TextInputSection.tsx
+/**
+ * @file TextInputSection.tsx
+ * @description A React component that provides a text input field for user queries,
+ *              sends the input to an API, and updates the response data.
+ * @module TextInputSection
+ */
+
 import React, { useState } from "react";
 import { ApiData } from "./PdfViewerPage";
 
+/**
+ * Defines the properties expected by the TextInputSection component.
+ *
+ * @interface TextInputSectionProps
+ * @property {string} inputText - The user input text.
+ * @property {(text: string) => void} setInputText - Function to update the input text state.
+ * @property {(data: ApiData) => void} setApiData - Function to update the API response data state.
+ */
 interface TextInputSectionProps {
   inputText: string;
   setInputText: (text: string) => void;
   setApiData: (data: ApiData) => void;
 }
 
+/**
+ * TextInputSection Component
+ *
+ * @description A component that provides a user input field to send queries to an API.
+ *              Displays a loading state during the API call and handles errors.
+ *
+ * @param {TextInputSectionProps} props - The component properties.
+ * @returns {JSX.Element} A text input field with a send button and error handling.
+ */
 export default function TextInputSection({ inputText, setInputText, setApiData }: TextInputSectionProps) {
+  // State to track loading status during API call.
   const [loading, setLoading] = useState(false);
+
+  // State to store any API request errors.
   const [error, setError] = useState<string | null>(null);
 
-  // Function to handle API call
-  const handleSend = async () => {
-    if (!inputText.trim()) return; // Prevent empty queries
+  /**
+   * Handles sending the user query to the API.
+   * Performs a GET request and updates the API response state.
+   * Displays errors if the request fails.
+   */
+  const handleSend = async (): Promise<void> => {
+    if (!inputText.trim()) return; // Prevent sending empty queries
 
     setLoading(true);
     setError(null);

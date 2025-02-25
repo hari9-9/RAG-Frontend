@@ -1,26 +1,57 @@
-// PdfReactPdf.tsx
+/**
+ * @file PdfReactPdf.tsx
+ * @description A React component for rendering a PDF file using the `react-pdf` library.
+ *              It provides navigation controls to move between pages.
+ * @module PdfReactPdf
+ */
+
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { useRef } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 
+/**
+ * Defines the properties expected by the PdfReactPdf component.
+ *
+ * @interface PdfProps
+ * @property {string} src - The source URL or path of the PDF file.
+ * @property {number} pageNumber - The current page number being displayed.
+ * @property {(page: number) => void} setPageNumber - Function to update the current page number.
+ */
 export interface PdfProps {
   src: string;
-  pageNumber: number; // Page number from parent component
-  setPageNumber: (page: number) => void; // Function to update page number
+  pageNumber: number;
+  setPageNumber: (page: number) => void;
 }
 
+// Configure pdf.js worker source to enable rendering of PDFs.
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
+/**
+ * PdfReactPdf Component
+ *
+ * @description This component displays a PDF file with page navigation.
+ *
+ * @param {PdfProps} props - The component properties.
+ * @returns {JSX.Element} A React component displaying a paginated PDF viewer.
+ */
 export default function PdfReactPdf({ src, pageNumber, setPageNumber }: PdfProps) {
+  // Reference to the container element for dynamic width calculations.
   const containerRef = useRef<HTMLDivElement>(null);
 
-  function nextPage() {
+  /**
+   * Increments the page number to navigate to the next page.
+   */
+  function nextPage(): void {
     setPageNumber(pageNumber + 1);
   }
 
-  function prevPage() {
+  /**
+   * Decrements the page number to navigate to the previous page.
+   * Ensures that the page number does not go below 1.
+   */
+  function prevPage(): void {
     setPageNumber(pageNumber > 1 ? pageNumber - 1 : 1);
   }
 
