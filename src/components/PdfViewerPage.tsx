@@ -1,45 +1,86 @@
-// PdfViewerPage.tsx
+/**
+ * @file PdfViewerPage.tsx
+ * @description A React component that provides a PDF viewer with interactive tab switching,
+ *              API-driven text input, and source-based page navigation.
+ * @module PdfViewerPage
+ */
+
 import { useState } from "react";
 import PdfReactPdf from "./pdfView";
 import TextInputSection from "./TextInputSection";
 
-// Define the type for each source
+/**
+ * Represents a source entry from the API response.
+ *
+ * @interface Source
+ * @property {string} text - The extracted text from the PDF source.
+ * @property {string} source - The name of the PDF file (e.g., "2024-conocophillips-proxy-statement.pdf").
+ * @property {number} page - The page number associated with the text.
+ */
 export interface Source {
   text: string;
-  source: string; // PDF file name (e.g. "2024-conocophillips-proxy-statement.pdf")
+  source: string;
   page: number;
 }
 
-// Define the API response type
+/**
+ * Defines the structure of the API response data.
+ *
+ * @interface ApiData
+ * @property {string} response - The API's response text.
+ * @property {Source[]} sources - A list of sources referenced in the response.
+ */
 export interface ApiData {
   response: string;
   sources: Source[];
 }
 
-// Mapping between PDF file names and our internal keys
+// Mapping between actual PDF file names and internal keys for easy reference.
 const pdfMapping: Record<string, "pdf1" | "pdf2"> = {
   "2023-conocophillips-aim-presentation.pdf": "pdf1",
   "2024-conocophillips-proxy-statement.pdf": "pdf2",
 };
 
+/**
+ * PdfViewerPage Component
+ *
+ * @description A page that displays a PDF viewer with tab-based navigation, stores
+ *              last read pages, and integrates an API-driven text input section.
+ *
+ * @returns {JSX.Element} A React component providing a PDF viewer with interactive features.
+ */
 export default function PdfViewerPage() {
-  // Store the last read page for each PDF
+  // State to track the last viewed page for each PDF.
   const [pageNumbers, setPageNumbers] = useState<{ pdf1: number; pdf2: number }>({
     pdf1: 1,
     pdf2: 1,
   });
 
+  // State to track the currently active PDF.
   const [activePdf, setActivePdf] = useState<"pdf1" | "pdf2">("pdf1");
+
+  // State for storing user input text.
   const [inputText, setInputText] = useState("");
+
+  // State for storing API response data.
   const [apiData, setApiData] = useState<ApiData | null>(null);
 
-  // Handle PDF switch and store last read page
-  const handleTabSwitch = (pdf: "pdf1" | "pdf2") => {
+  /**
+   * Handles switching between PDFs while maintaining the last viewed page.
+   *
+   * @param {"pdf1" | "pdf2"} pdf - The identifier for the selected PDF.
+   */
+  const handleTabSwitch = (pdf: "pdf1" | "pdf2"): void => {
     setActivePdf(pdf);
   };
 
-  // When a source link is clicked, switch to the correct PDF and page
-  const handleSourceClick = (source: Source) => {
+  /**
+   * Handles navigation to a specific source in the PDF.
+   * Updates the active PDF and sets the corresponding page number.
+   *
+   * @param {Source} source - The source reference containing the PDF name and page number.
+   */
+  const handleSourceClick = (source: Source): void => {
     const pdfKey = pdfMapping[source.source];
     if (pdfKey) {
       setActivePdf(pdfKey);
