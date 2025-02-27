@@ -5,6 +5,7 @@
  * @module PdfReactPdf
  */
 
+import React from "react";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { useRef } from "react";

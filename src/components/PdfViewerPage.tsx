@@ -4,7 +4,7 @@
  *              API-driven text input, and source-based page navigation.
  * @module PdfViewerPage
  */
-
+import React from "react";
 import { useState } from "react";
 import PdfReactPdf from "./pdfView";
 import TextInputSection from "./TextInputSection";
