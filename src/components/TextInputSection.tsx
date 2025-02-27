@@ -51,12 +51,15 @@ export default function TextInputSection({ inputText, setInputText, setApiData }
     setApiData({ response: "", sources: [] }); // Clear previous response
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/query/?query=${encodeURIComponent(inputText)}`, {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      if (!backendUrl) {
+        throw new Error("Backend URL not found. Please check the environment configuration.");
+      }
+      const response = await fetch(`${backendUrl}/?query=${inputText}`, {
         method: "GET",
-        headers: {
-          "Accept": "application/json",
-        },
+        headers: { "Accept": "application/json" },
       });
+      
 
       if (!response.ok) {
         throw new Error(`API Error: ${response.statusText}`);
