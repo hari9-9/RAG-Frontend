@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     // In Vercel, you'll set BACKEND_URL (e.g., "http://54.77.226.229:8000")
     const backendUrl = process.env.BACKEND_URL;
     if (!backendUrl) {
+        console.log('BACKEND_URL is not configured');
       return res.status(500).json({ error: "BACKEND_URL is not configured" });
     }
   
