@@ -55,7 +55,8 @@ export default function TextInputSection({ inputText, setInputText, setApiData }
       if (!backendUrl) {
         throw new Error("Backend URL not found. Please check the environment configuration.");
       }
-      const response = await fetch(`${backendUrl}/?query=${inputText}`, {
+      // New URL using the proxy (relative path ensures HTTPS):
+      const response = await fetch(`/api/proxy?query=${inputText}`, {
         method: "GET",
         headers: { "Accept": "application/json" },
       });
