@@ -119,8 +119,8 @@ export default function PdfViewerPage() {
             <PdfReactPdf
               src={
                 activePdf === "pdf1"
-                  ? "src/assets/2023-conocophillips-aim-presentation.pdf"
-                  : "src/assets/2024-conocophillips-proxy-statement.pdf"
+                  ? "/2023-conocophillips-aim-presentation.pdf"
+                  : "/2024-conocophillips-proxy-statement.pdf"
               }
               pageNumber={pageNumbers[activePdf]}
               setPageNumber={(newPage) =>
