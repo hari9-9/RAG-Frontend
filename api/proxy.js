@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
   
     // Build the full URL to your backend endpoint.
-    const fullUrl = `${backendUrl}/query/?query=${query}`;
+    const fullUrl = `${backendUrl}/?query=${query}`;
   
     try {
       // Forward the request to the backend
